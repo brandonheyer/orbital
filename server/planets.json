@@ -1,0 +1,84 @@
+[
+    {
+        "name": "Mercury",
+        "period": 87.969,
+        "rotation": 58.785,
+        "radius": 2439.5,
+        "color": { "r": 154, "g": 90, "b": 35 },
+        "majorAxis": 0.387,
+        "eccentricity": 0.2056
+
+    },
+    {
+        "name": "Venus",
+        "period": 224.701,
+        "rotation": 243.686,
+        "radius": 6052,
+        "color": { "r": 168, "g": 33, "b": 21 },
+        "majorAxis": 0.723,
+        "eccentricity": 0.0068
+    },
+    {
+        "name": "Earth",
+        "period": 365.256,
+        "rotation": 0.99727,
+        "radius": 6371,
+        "color": { "r": 0, "g": 110, "b": 145 },
+        "majorAxis": 1,
+        "eccentricity": 0.0167
+    },
+    {
+        "name": "Mars",
+        "period": 686.98,
+        "rotation": 1.02595,
+        "radius": 3389.5,
+        "color": { "r": 153, "g": 145, "b": 132 },
+        "majorAxis": 1.524,
+        "eccentricity": 0.0484
+    },
+    {
+        "name": "Jupiter",
+        "period": 4329.63,
+        "rotation": 0.41354,
+        "radius": 69911,
+        "color": { "r": 85, "g": 167, "b": 103 },
+        "majorAxis": 5.203,
+        "eccentricity": 0.0484
+    },
+    {
+        "name": "Saturn",
+        "period": 10751.805,
+        "rotation": 0.444,
+        "radius": 58232,
+        "color": { "r": 255, "g": 236, "b": 172 },
+        "majorAxis": 9.537,
+        "eccentricity": 0.0542
+    },
+    {
+        "name": "Uranus",
+        "period": 30664.015,
+        "rotation": 0.71833,
+        "radius": 25362,
+        "color": { "r": 188, "g": 173, "b": 165 },
+        "majorAxis": 19.191,
+        "eccentricity": 0.0472
+    },
+    {
+        "name": "Neptune",
+        "period": 60148.35,
+        "rotation": 0.67125,
+        "radius": 24622,
+        "color": { "r": 90, "g": 119, "b": 193 },
+        "majorAxis": 30.069,
+        "eccentricity": 0.0086
+    },
+    {
+        "name": "Pluto",
+        "period": 90403.2,
+        "rotation": 6.405,
+        "radius": 1195,
+        "color": { "r": 81, "g": 81, "b": 81 },
+        "majorAxis": 39.482,
+        "eccentricity": 0.2488
+    }
+]

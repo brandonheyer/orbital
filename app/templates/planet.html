@@ -1,0 +1,27 @@
+<svg:defs>
+    <svg:linearGradient [attr.id]="'planetGrad' + planet.name" x1="0%" y1="0%" x2="100%" y2="0%">
+        <svg:stop
+            [attr.offset]="( ( planet.currentRotation / 360 * 200 ) - 101 ) + '%'"
+            [style.stop-color]="planet.color.darken( 100 ).toCSS()"
+        ></stop>
+        <svg:stop
+            [attr.offset]="( ( planet.currentRotation / 360 * 200 ) - 100 ) + '%'"
+            [style.stop-color]="planet.color.toCSS()"
+        ></stop>
+        <svg:stop
+            [attr.offset]="( planet.currentRotation / 360 * 200 ) + '%'"
+            [style.stop-color]="planet.color.toCSS()"
+        ></stop>
+        <svg:stop
+            [attr.offset]="( ( planet.currentRotation / 360 * 200 ) - 1 ) + '%'"
+            [style.stop-color]="planet.color.darken( 100 ).toCSS()"
+        ></stop>
+    </linearGradient>
+</defs>
+
+<svg:circle
+    [attr.r]="planet.configuration.radius( planet.radius * configuration[ planet.radiusScale ] )"
+    [attr.cx]="planet.configuration.x( planet.xPos )"
+    [attr.cy]="planet.configuration.y( planet.yPos )"
+    [attr.fill]="'url(#planetGrad' + planet.name + ')'"
+></circle>

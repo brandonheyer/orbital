@@ -1,0 +1,42 @@
+<li class="planet-config" (click)="onSelect()" >
+    {{planet.name}}
+</li>
+
+<div *ngIf="active">
+    <ul>
+        <li>
+            <label>Name:</label>
+            <input [(ngModel)]="planet.name" />
+        </li>
+        <li class="planet-color">
+            <label>Color <span class="unit">(rgb)</span>:</label>
+            <input type="number" [(ngModel)]="planet.color.r" />
+            <input type="number" [(ngModel)]="planet.color.g" />
+            <input type="number" [(ngModel)]="planet.color.b" />
+        </li>
+        <li>
+            <label>Radius <span class="unit">(km)</span>:</label>
+            <input type="number" [(ngModel)]="planet.radius" />
+        </li>
+        <li>
+            <label>Rotation <span class="unit">(days)</span>:</label>
+            <input type="number" [(ngModel)]="planet.rotation" />
+        </li>
+        <li>
+            <label>Period <span class="unit">(days)</span>:</label>
+            <input type="number" [(ngModel)]="planet.period" />
+        </li>
+        <li>
+            <label>Major Axis <span class="unit">(km)</span>:</label>
+            <input type="number" [(ngModel)]="planet.majorAxis" />
+        </li>
+        <li>
+            <label>Eccentricity:</label>
+            <input type="number" [(ngModel)]="planet.eccentricity" />
+        </li>
+        <li class="helper">
+            A value from 0 to 1, exclusive of 1, which determines the "roundness"
+            of the orbit, with 0 being circular.
+        </li>
+    </ul>
+</div>

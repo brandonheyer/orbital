@@ -1,0 +1,57 @@
+<div>
+    <h2>General Settings</h2>
+    <ul>
+        <li>
+            <label>Time Scale: </label><input type="number" [(ngModel)]="configuration.timeScale" />
+        </li>
+        <li class="helper">
+            A positive integer, time is implicitly scaled up by a factor of 10,000<br />
+            (a value of 0.0001 will result in real time)
+        </li>
+
+        <li>
+            <label>Solar Scale: </label><input type="number" [(ngModel)]="configuration.solarScale" />
+        </li>
+        <li class="helper">
+            The factor to scale the display of the host star's radius by.
+        </li>
+
+        <li>
+            <label>Planet Scale: </label><input type="number" [(ngModel)]="configuration.planetaryScale" />
+        </li>
+        <li class="helper">
+            The factor to scale the display of all planet's radii by.
+        </li>
+
+        <li>
+            <label>Zoom Factor: </label><input type="number" [(ngModel)]="configuration.zoom" />
+        </li>
+        <li class="helper">
+            Center-focused zoom factor. Sorry no panning! <br/>
+            For the solar system, a value of 30 will take you to the inner planets (inside of the asteroid belt).
+        </li>
+    </ul>
+
+    <ul>
+        <li>
+            <button (click)="loadRandom()">Load Random Planet</button>
+        </li>
+        <li>
+            <button (click)="loadAll()">Load Solar Sytem</button>
+        </li>
+        <li>
+            <button *ngIf="configuration.isPaused()" (click)="toggleAnimation()">Start Animation</button>
+            <button *ngIf="!configuration.isPaused()" (click)="toggleAnimation()">Pause Animation</button>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <h2>Planetary Settings</h2>
+    <ul>
+        <planet-config
+            *ngFor="let planet of planets"
+                [planet]="planet"
+        ></planet-config>
+    </ul>
+</div>

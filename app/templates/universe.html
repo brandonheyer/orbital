@@ -1,0 +1,16 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+    [attr.width]="configuration.screenWidth"
+    [attr.height]="configuration.screenHeight"
+    (window:resize)="onResize()"
+>
+    <g class="orbit"
+        *ngFor="let planet of planetService.planets"
+            [planet]="planet"
+    ></g>
+
+    <g class="planet" *ngIf="sun" [planet]="sun"></g>
+    <g class="planet"
+        *ngFor="let planet of planetService.planets"
+            [planet]="planet"
+    ></g>
+</svg>
