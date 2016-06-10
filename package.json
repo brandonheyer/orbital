@@ -2,7 +2,7 @@
   "name": "orbital",
   "version": "1.0.0",
   "scripts": {
-    "start": "./node_modules/.bin/gulp",
+    "start": "./node_modules/.bin/gulp"
   },
   "license": "ISC",
   "dependencies": {
