@@ -50,9 +50,11 @@ class Vector extends XYPair {
       return this;
     }
 
+    const magnitude = this.magnitude();
+
     return new Vector(
-      this.x / this.magnitude(),
-      this.y / this.magnitude()
+      this.x / magnitude,
+      this.y / magnitude
     );
   }
 

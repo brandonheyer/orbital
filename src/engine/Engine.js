@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import * as d3 from 'd3';
 import _ from 'lodash';
-import Events from "event-pubsub";
+import Events from 'event-pubsub';
 
 const SUPPORT_OFFSET = window.pageYOffset !== undefined;
 
@@ -26,6 +26,7 @@ export default class Engine {
 
     this.xMax = worldX;
     this.yMax = worldY;
+
 
     this.xScale = d3.scaleLinear()
       .domain([0, worldX])
@@ -211,7 +212,19 @@ export default class Engine {
   }
 
   setSpeedMultiplier(value) {
-    this.speedMultiplier = value;
+    value = parseInt(value);
+
+    if (value) {
+      this.speedMultiplier = value;
+
+      if (!this.running) {
+        this.start();
+      }
+    }
+
+    if (!value && this.running) {
+      this.stop();
+    }
   }
 
   /**
@@ -271,8 +284,6 @@ export default class Engine {
   initializeScroll() {
     this.scrollStep = 16;
     window.addEventListener('wheel', (e) => {
-      console.log(e);
-
       if (e.deltaY === 0) {
         return;
       }

@@ -1,5 +1,6 @@
 import Point from './Point';
 import Vector from './Vector';
+import Events from 'event-pubsub';
 
 /**
  * A BaseEntity is a individual item that should be updated and
@@ -11,6 +12,11 @@ export default class BaseEntity {
    */
   constructor(options) {
     options = options || {};
+
+    this.events = new Events();
+    this.on = this.events.on.bind(this.events);
+    this.off = this.events.off.bind(this.events);
+    this.emit = this.events.emit.bind(this.events);
 
     this.setScales(options);
 

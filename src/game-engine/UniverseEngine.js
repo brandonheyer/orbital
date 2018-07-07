@@ -11,10 +11,7 @@ export default class UniverseEngine extends TwoEngine {
   constructor(canvasClass, pixelX, pixelY, worldX, worldY, options) {
     super(canvasClass, pixelX, pixelY, worldX, worldY, options);
 
-    this.GEE = 0.000005;
-
-    this.lastAsteroid = 0;
-    this.lastTimeout = 100;
+    this.GEE = 0.000003;
 
     this.yPrime = 1800;/// * .66;
     this.xPrime = this.xScale.domain()[1] * this.yPrime / this.yScale.domain()[1]; //* .66;
@@ -29,8 +26,6 @@ export default class UniverseEngine extends TwoEngine {
     this.dragStart = undefined;
 
     this.offset = this.canvas.renderer.domElement.getBoundingClientRect();
-
-    console.log(this.offset);
 
     this.generatorOptions = {
       multi: function(xStart, yStart, xHeading, yHeading) {
@@ -105,71 +100,83 @@ export default class UniverseEngine extends TwoEngine {
     d3.select(canvasClass).call(
       d3.drag()
         .on('start', () => {
-          console.log(this.offset);
-          const eX = d3.event.x - this.offset.x;
-          const eY = d3.event.y + this.offset.y;
+          if (this.currGeneratorOptions) {
+            this.dragging = true;
 
-          this.dragStart = this.canvas.makeCircle(
-            eX,
-            eY,
-            this.scale(15)
-          );
+            const eX = d3.event.x - this.offset.x;
+            const eY = d3.event.y + this.offset.y;
 
-          this.dragStart.noStroke();
+            this.dragStart = this.canvas.makeCircle(
+              eX,
+              eY,
+              this.scale(15)
+            );
 
-          this.dragPointer = this.canvas.makeCircle(
-            eX,
-            eY,
-            this.scale(30)
-          );
+            this.dragStart.noStroke();
 
-          this.dragPointer.noStroke();
+            this.dragPointer = this.canvas.makeCircle(
+              eX,
+              eY,
+              this.scale(30)
+            );
 
-          this.dragLine = this.canvas.makeLine(
-            eX,
-            eY,
-            eX,
-            eY
-          );
+            this.dragPointer.noStroke();
 
-          this.dragLine.linewidth = this.scale(5);
-          this.dragLine.stroke = '#00ff00';
-          this.dragLine.fill = '#ff00ff';
+            this.dragLine = this.canvas.makeLine(
+              eX,
+              eY,
+              eX,
+              eY
+            );
+
+            this.dragLine.linewidth = this.scale(5);
+            this.dragLine.stroke = '#00ff00';
+            this.dragLine.fill = '#ff00ff';
+          }
         })
         .on('drag', (drag) => {
-          const eX = d3.event.x - this.offset.x;
-          const eY = d3.event.y + this.offset.y;
+          if (this.dragging) {
+            const eX = d3.event.x - this.offset.x;
+            const eY = d3.event.y + this.offset.y;
 
-          this.dragPointer.translation.set(eX, eY);
-          this.dragLine.vertices[1].set(
-            eX - this.dragLine.translation.x,
-            eY - this.dragLine.translation.y
-          );
+            this.dragPointer.translation.set(eX, eY);
+            this.dragLine.vertices[1].set(
+              eX - this.dragLine.translation.x,
+              eY - this.dragLine.translation.y
+            );
+          }
         })
         .on('end', () => {
-          const xStart = this.xScale.invert(this.dragStart.translation.x);
-          const yStart = this.yScale.invert(this.dragStart.translation.y);
-          const tempVector = this.dragPointer.translation.set(
-            this.xScale.invert(this.dragPointer.translation.x),
-            this.yScale.invert(this.dragPointer.translation.y)
-          );
-          const tempVector2 = this.dragStart.translation.set(
-            this.xScale.invert(this.dragStart.translation.x),
-            this.yScale.invert(this.dragStart.translation.y)
-          );
+          if (this.dragging) {
+            const xStart = this.xScale.invert(this.dragStart.translation.x);
+            const yStart = this.yScale.invert(this.dragStart.translation.y);
+            const tempVector = this.dragPointer.translation.set(
+              this.xScale.invert(this.dragPointer.translation.x),
+              this.yScale.invert(this.dragPointer.translation.y)
+            );
+            const tempVector2 = this.dragStart.translation.set(
+              this.xScale.invert(this.dragStart.translation.x),
+              this.yScale.invert(this.dragStart.translation.y)
+            );
 
-          tempVector.subSelf(tempVector2).divideScalar(1000);
+            tempVector.subSelf(tempVector2).divideScalar(1000);
 
-          const xHeading = tempVector.x;
-          const yHeading = tempVector.y;
+            const xHeading = tempVector.x;
+            const yHeading = tempVector.y;
 
-          this.addGenerator(
-            new Generator(this.currGeneratorOptions(xStart, yStart, xHeading, yHeading))
-          );
+            this.addGenerator(
+              new Generator(this.currGeneratorOptions(xStart, yStart, xHeading, yHeading))
+            );
 
-          this.dragPointer.remove();
-          this.dragStart.remove();
-          this.dragLine.remove();
+            this.dragPointer.remove();
+            this.dragStart.remove();
+            this.dragLine.remove();
+
+            this.emit('generator:clear');
+
+            this.currGeneratorOptions = undefined;
+            this.dragging = false;
+          }
         })
     );
 
@@ -268,6 +275,8 @@ export default class UniverseEngine extends TwoEngine {
   }
 
   setGenerator(type) {
+    this.emit('generator:clear');
+
     if (this.generatorOptions[type]) {
       this.currGeneratorOptions = this.generatorOptions[type];
     }
