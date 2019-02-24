@@ -169,10 +169,14 @@ export default class PlanetEntity extends BaseEntity {
       this.heading.x += this.forceVector.x / this.mass * delta;
       this.heading.y += this.forceVector.y / this.mass * delta;
 
-      const endHeading = (new Point(0, 0)).scalePlus(1000, this.heading.getNormalized());
+      const endHeading = this.heading.getNormalized();
+      this.headingElement.vertices[0].set(
+        this.xScale(this.pos.x),
+        this.yScale(this.pos.y)
+      );
       this.headingElement.vertices[1].set(
-        this.xScale(endHeading.x),
-        this.yScale(endHeading.y)
+        this.xScale((this.pos.x + endHeading.x) * 1000),
+        this.yScale((this.pos.y + endHeading.y) * 1000)
       );
       this.headingElement.linewidth = this.scale(50);
 
@@ -183,7 +187,6 @@ export default class PlanetEntity extends BaseEntity {
       );
 
       // this.element.rotation = this.element.rotation + (this.rotationSpeed / delta);
-      // this.headingElement.rotation = this.heading.angle();
     }
   }
 
@@ -200,13 +203,27 @@ export default class PlanetEntity extends BaseEntity {
         );
       });
 
-      const endHeading = (new Point(0, 0)).scalePlus(1000, this.heading.getNormalized());
-      this.headingElement.vertices[0].set(0, 0);
+      const endHeading = this.heading.getNormalized();
+      // this.headingElement.vertices[0].set(
+      //   this.xScale(0),
+      //   this.yScale(0)
+      // );
+
       this.headingElement.vertices[1].set(
-        this.xScale(endHeading.x),
-        this.yScale(endHeading.y)
+        this.xScale(endHeading.x * 1000),
+        this.yScale(endHeading.y * 1000)
       );
       this.headingElement.linewidth = this.xScale(50);
+
+      this.element.translation.set(
+        this.xScale(this.pos.x),
+        this.yScale(this.pos.y)
+      );
+
+      this.headingElement.translation.set(
+        this.xScale(this.pos.x),
+        this.yScale(this.pos.y)
+      );
     } else {
       this.points = [];
       const totalPoints = 16;
@@ -236,19 +253,24 @@ export default class PlanetEntity extends BaseEntity {
       this.planetElement.curved = true;
       this.planetElement.noStroke();
 
-      const endHeading = (new Point(0, 0)).scalePlus(1000, this.heading.getNormalized());
+      const endHeading = this.pos.scalePlus(1000, this.heading.getNormalized());
       this.headingElement = canvas.makeLine(
-        this.xScale(this.pos.x),
-        this.yScale(this.pos.y),
-        this.xScale(endHeading.x),
-        this.yScale(endHeading.y)
+        this.xScale(0),
+        this.yScale(0),
+        this.xScale(this.heading.x * 1000),
+        this.yScale(this.heading.y * 1000)
       );
       this.headingElement.linewidth = this.scale(50);
       this.headingElement.stroke = "#ff0000";
 
-      this.element = this.canvas.makeGroup(this.planetElement, this.headingElement);
+      this.element = this.planetElement; //this.canvas.makeGroup(this.planetElement, this.headingElement);
 
       this.element.translation.set(
+        this.xScale(this.pos.x),
+        this.yScale(this.pos.y)
+      );
+
+      this.headingElement.translation.set(
         this.xScale(this.pos.x),
         this.yScale(this.pos.y)
       );
